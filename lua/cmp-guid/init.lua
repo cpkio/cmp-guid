@@ -26,9 +26,8 @@ end
 
 function source:complete(_, callback)
   local items = {}
+  math.randomseed(sock.gettime() * 10000)
   for _ =  1, 5 do
-    math.randomseed(sock.gettime() * 10000)
-    sock.select(nil, nil, 0.001)
     local k = uid(8) ..
        '-' .. uid(4) ..
        '-' .. uid(4) ..
