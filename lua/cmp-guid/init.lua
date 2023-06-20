@@ -1,7 +1,5 @@
 local source = {}
 
-local sock = require('socket')
-
 local charset = {}  do -- [0-9a-z]
     for c = 48, 57  do table.insert(charset, string.char(c)) end
     for c = 97, 102 do table.insert(charset, string.char(c)) end
@@ -21,12 +19,11 @@ function source:is_available()
 end
 
 function source:get_keyword_pattern()
-  return [[\%(\k\|\.\)\+]]
+  return [[\k\+]]
 end
 
 function source:complete(_, callback)
   local items = {}
-  math.randomseed(sock.gettime() * 10000)
   for _ =  1, 5 do
     local k = uid(8) ..
        '-' .. uid(4) ..
