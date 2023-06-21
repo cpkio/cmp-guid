@@ -10,6 +10,21 @@ local function uid(len)
   return uid(len - 1) .. charset[math.random(1, #charset)]
 end
 
+local uuid =
+  coroutine.wrap(function()
+    while true do
+      local _uuid =  uid(8) ..
+              '-' .. uid(4) ..
+              '-' .. uid(4) ..
+              '-' .. uid(4) ..
+              '-' .. uid(12)
+      coroutine.yield({
+        label = _uuid,
+        insertText = _uuid,
+      })
+    end
+  end)
+
 function source.new()
     return setmetatable({}, { __index = source })
 end
@@ -24,16 +39,8 @@ end
 
 function source:complete(_, callback)
   local items = {}
-  for _ =  1, 5 do
-    local k = uid(8) ..
-       '-' .. uid(4) ..
-       '-' .. uid(4) ..
-       '-' .. uid(4) ..
-       '-' .. uid(12)
-    table.insert(items, {
-      label = k,
-      insertText = k,
-    })
+  for _ = 1, 5 do
+    table.insert(items, uuid())
   end
   callback({
     items = items
