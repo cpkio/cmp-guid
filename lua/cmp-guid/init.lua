@@ -47,5 +47,9 @@ function source:complete(_, callback)
   })
 end
 
+function source:gen()
+  return uuid().insertText
+end
+
 return source
 
