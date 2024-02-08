@@ -12,12 +12,18 @@ end
 
 local uuid =
   coroutine.wrap(function()
+    local template = 'fxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     while true do
-      local _uuid =  uid(8) ..
-              '-' .. uid(4) ..
-              '-' .. uid(4) ..
-              '-' .. uid(4) ..
-              '-' .. uid(12)
+      local _uuid = template:gsub('[xy]', function(c)
+        local rand = math.floor(math.random() * 16)
+        local v
+        if c == 'x' then
+          v = rand
+        else
+          v = bit.bor(bit.band(rand, 3), 8)
+        end
+        return string.format("%x", v)
+      end)
       coroutine.yield({
         label = _uuid,
         insertText = _uuid,
