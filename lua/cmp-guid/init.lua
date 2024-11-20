@@ -12,7 +12,7 @@ end
 
 local uuid =
   coroutine.wrap(function()
-    local template = 'fxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    local template = 'zxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     while true do
       local _uuid = template:gsub('[xy]', function(c)
         local rand = math.floor(math.random() * 16)
@@ -23,6 +23,10 @@ local uuid =
           v = bit.bor(bit.band(rand, 3), 8)
         end
         return string.format("%x", v)
+      end)
+      _uuid = _uuid:gsub('[z]', function(c)
+        local rand = math.floor(math.random() * 6)+10
+        return string.format("%x", rand)
       end)
       coroutine.yield({
         label = _uuid,
